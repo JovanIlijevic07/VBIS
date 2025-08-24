@@ -1,20 +1,20 @@
 <?php return array(
     'root' => array(
-        'name' => 'petar/vbis-framework2023',
+        'name' => 'moviestore/php-mvc',
         'pretty_version' => '1.0.0+no-version-set',
         'version' => '1.0.0.0',
-        'reference' => NULL,
-        'type' => 'library',
+        'reference' => null,
+        'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
-        'petar/vbis-framework2023' => array(
+        'moviestore/php-mvc' => array(
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',
-            'reference' => NULL,
-            'type' => 'library',
+            'reference' => null,
+            'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,

@@ -1,17 +1,13 @@
 {
-    "name": "petar/vbis-framework2023",
+    "name": "moviestore/php-mvc",
+    "description": "PHP MVC Movie Store Application",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
     "autoload": {
         "psr-4": {
-            "app\\": "./"
+            "App\\": "src/"
         }
-    },
-    "authors": [
-        {
-            "name": "petar-bisevac"
-        }
-    ],
-    "require": {
-        "ext-json": "*",
-        "ext-mysqli": "*"
     }
-}
+} 
