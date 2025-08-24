@@ -1,0 +1,17 @@
+{
+    "name": "petar/vbis-framework2023",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "petar-bisevac"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "ext-mysqli": "*"
+    }
+}
