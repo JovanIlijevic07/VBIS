@@ -48,27 +48,29 @@
     </div>
     
     <div class="dashboard-sections">
-        <div class="section">
-            <h2>Movie Genres</h2>
-            <div class="genre-stats">
-                <?php foreach ($movieStats['genres'] as $genre => $count): ?>
-                    <div class="genre-item">
-                        <span class="genre-name"><?= htmlspecialchars($genre) ?></span>
-                        <span class="genre-count"><?= $count ?> movies</span>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Latest Movie</h2>
-            <div class="latest-movie">
-                <h3><?= htmlspecialchars($movieStats['latest_movie']['title']) ?></h3>
-                <p><?= htmlspecialchars($movieStats['latest_movie']['genre']) ?> • <?= $movieStats['latest_movie']['year'] ?></p>
-                <p>$<?= number_format($movieStats['latest_movie']['price'], 2) ?></p>
-            </div>
-        </div>
+    <div class="section">
+        <h2>Movie Genres</h2>
+        <canvas id="genresChart"></canvas> <!-- Ovde ide pie chart -->
+    </div>
+    
+    <div class="section">
+        <h2>Latest Movie Revenue</h2>
+        <canvas id="latestMovieChart"></canvas> <!-- Ovde ide line chart -->
     </div>
 </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Movie Genres data
+    window.movieGenresLabels = <?= json_encode(array_keys($movieStats['genres'])) ?>;
+    window.movieGenresCounts = <?= json_encode(array_values($movieStats['genres'])) ?>;
+
+    // Latest Movie Revenue data
+    window.latestRevenueLabels = <?= json_encode(array_keys($orderStats['latest_revenue'] ?? [])) ?>;
+    window.latestRevenueData = <?= json_encode(array_values($orderStats['latest_revenue'] ?? [])) ?>;
+</script>
+
+<script src="/js/script.js"></script> <!-- ili gde je tvoj JS fajl -->
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>

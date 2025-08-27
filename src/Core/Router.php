@@ -31,7 +31,8 @@ class Router
         if (!$requestUri) {
             $requestUri = '/';
         }
-        
+  //      var_dump($requestMethod, $requestUri);
+//exit;
         
         if (isset($this->routes[$requestMethod][$requestUri])) {
             $route = $this->routes[$requestMethod][$requestUri];

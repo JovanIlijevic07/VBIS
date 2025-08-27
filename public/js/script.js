@@ -90,6 +90,57 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
         });
     });
+
+    // ======= Movie Genres Pie Chart =======
+    if (document.getElementById('genresChart')) {
+        const genresLabels = window.movieGenresLabels || [];
+        const genresCounts = window.movieGenresCounts || [];
+
+        new Chart(document.getElementById('genresChart'), {
+            type: 'pie',
+            data: {
+                labels: genresLabels,
+                datasets: [{
+                    data: genresCounts,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    title: { display: true, text: 'Movie Genres Sold' }
+                }
+            }
+        });
+    }
+
+    // ======= Latest Movie Revenue Line Chart =======
+    if (document.getElementById('latestMovieChart')) {
+        const revenueLabels = window.latestRevenueLabels || [];
+        const revenueData = window.latestRevenueData || [];
+
+        new Chart(document.getElementById('latestMovieChart'), {
+            type: 'line',
+            data: {
+                labels: revenueLabels,
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: revenueData,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    title: { display: true, text: 'Latest Movie Revenue' }
+                }
+            }
+        });
+    }
 });
 
 // Add CSS animations

@@ -77,4 +77,45 @@ class MovieController
         
         include __DIR__ . '/../Views/movies/orders.php';
     }
+
+    public function genreSalesStats()
+{
+    $orders = $this->orderModel->getAllOrders();
+    $movies = $this->movieModel->getAllMovies();
+
+    $genreSales = [];
+
+    foreach ($orders as $order) {
+        $movieId = $order['movie_id'];
+        if (isset($movies[$movieId])) {
+            $genre = $movies[$movieId]['genre'];
+            if (!isset($genreSales[$genre])) {
+                $genreSales[$genre] = 0;
+            }
+            $genreSales[$genre]++;
+        }
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($genreSales);
+}
+
+public function revenueOverTime()
+{
+    $orders = $this->orderModel->getAllOrders();
+    $revenueByDate = [];
+
+    foreach ($orders as $order) {
+        $date = date('Y-m-d', strtotime($order['created_at']));
+        if (!isset($revenueByDate[$date])) {
+            $revenueByDate[$date] = 0;
+        }
+        $revenueByDate[$date] += $order['price'];
+    }
+
+    ksort($revenueByDate);
+
+    header('Content-Type: application/json');
+    echo json_encode($revenueByDate);
+}
 }
