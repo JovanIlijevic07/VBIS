@@ -28,14 +28,22 @@ class AdminController
     }
     
     public function dashboard()
-    {
-        $userStats = $this->userModel->getUserStats();
-        $movieStats = $this->movieModel->getMovieStats();
-        $orderStats = $this->orderModel->getOrderStats();
-        $username = Session::get('username');
-        
-        include __DIR__ . '/../Views/admin/dashboard.php';
-    }
+{
+    $userStats = $this->userModel->getUserStats();
+    $movieStats = $this->movieModel->getMovieStats();
+    $orderStats = $this->orderModel->getOrderStats();
+
+    // Dodaj dnevnu zaradu
+    $orderStats['daily_revenue'] = $this->orderModel->getDailyRevenueLast30Days();
+
+    // Dodaj prodaju po žanrovima
+    $soldByGenre = $this->orderModel->getSoldByGenre();
+
+    $username = Session::get('username');
+    
+    include __DIR__ . '/../Views/admin/dashboard.php';
+}
+
     
     public function users()
     {

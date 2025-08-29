@@ -61,14 +61,17 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
 <script>
     // Movie Genres data
-    window.movieGenresLabels = <?= json_encode(array_keys($movieStats['genres'])) ?>;
-    window.movieGenresCounts = <?= json_encode(array_values($movieStats['genres'])) ?>;
+   window.movieGenresLabels = <?= json_encode(array_column($soldByGenre, 'genre')) ?>;
+    window.movieGenresCounts = <?= json_encode(array_column($soldByGenre, 'total_sold')) ?>;
 
     // Latest Movie Revenue data
-    window.latestRevenueLabels = <?= json_encode(array_keys($orderStats['latest_revenue'] ?? [])) ?>;
-    window.latestRevenueData = <?= json_encode(array_values($orderStats['latest_revenue'] ?? [])) ?>;
+    // Latest Movie Revenue data
+window.latestRevenueLabels = <?= json_encode(array_keys($orderStats['daily_revenue'] ?? [])) ?>;
+window.latestRevenueData = <?= json_encode(array_values($orderStats['daily_revenue'] ?? [])) ?>;
+
 </script>
 
 <script src="/js/script.js"></script> <!-- ili gde je tvoj JS fajl -->

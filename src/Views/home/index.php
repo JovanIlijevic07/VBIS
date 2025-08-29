@@ -19,8 +19,10 @@
             <?php foreach ($movies as $movie): ?>
                 <div class="movie-card">
                     <div class="movie-image">
-                        <img src="/images/<?= $movie['image'] ?>" alt="<?= htmlspecialchars($movie['title']) ?>" onerror="this.src='/images/placeholder.jpg'">
-                    </div>
+    <img src="<?= htmlspecialchars($movie['image_url']) ?>" 
+         alt="<?= htmlspecialchars($movie['title']) ?>" 
+         onerror="this.src='/images/placeholder.jpg'">
+</div>
                     <div class="movie-info">
                         <h3><?= htmlspecialchars($movie['title']) ?></h3>
                         <p class="genre"><?= htmlspecialchars($movie['genre']) ?> • <?= $movie['year'] ?></p>

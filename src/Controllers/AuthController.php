@@ -21,28 +21,24 @@ class AuthController
     }
     
     public function processLogin()
-    {
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
+{
+    $usernameOrEmail = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-        $user = $this->userModel->login($username, $password);
+    $user = $this->userModel->login($usernameOrEmail, $password);
 
-        if ($user) {
-            Session::set('user_id', $user['id']);
-            Session::set('username', $user['username']);
-            Session::set('user_role', $user['role']);
+    if ($user) {
+        Session::set('user_id', $user['id']);
+        Session::set('username', $user['username']);
+        Session::set('is_admin', $user['is_admin']);
 
-            if ($user['role'] === 'admin') {
-                header('Location: /admin');
-            } else {
-                header('Location: /');
-            }
-            exit;
-        } else {
-            $error = 'Invalid username or password';
-            include __DIR__ . '/../Views/auth/login.php';
-        }
+        header('Location: ' . ($user['is_admin'] ? '/admin' : '/'));
+        exit;
+    } else {
+        $error = 'Invalid username or password';
+        include __DIR__ . '/../Views/auth/login.php';
     }
+}
     
     public function showRegister()
     {

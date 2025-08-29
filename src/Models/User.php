@@ -7,81 +7,100 @@ use App\Core\Database;
 class User
 {
     private $db;
-    private static $users = [
-        1 => ['id' => 1, 'username' => 'admin', 'password' => 'admin123', 'email' => 'admin@moviestore.com', 'role' => 'admin', 'created_at' => '2024-01-01'],
-        2 => ['id' => 2, 'username' => 'john_doe', 'password' => 'password123', 'email' => 'john@example.com', 'role' => 'user', 'created_at' => '2024-01-02'],
-        3 => ['id' => 3, 'username' => 'jane_smith', 'password' => 'password456', 'email' => 'jane@example.com', 'role' => 'user', 'created_at' => '2024-01-03']
-    ];
-    
+
     public function __construct()
     {
         $this->db = new Database();
     }
-    
-    public function login($username, $password)
+
+    // Login po username ili email
+    public function login($usernameOrEmail, $password)
     {
-        foreach (self::$users as $user) {
-            if ($user['username'] === $username && $user['password'] === $password) {
-                return $user;
-            }
+        $stmt = $this->db->query(
+            "SELECT * FROM users WHERE username = ? OR email = ?",
+            [$usernameOrEmail, $usernameOrEmail]
+        );
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
         }
+
         return false;
     }
-    
-    public function register($username, $password, $email)
+
+    // Registracija korisnika
+    public function register($username, $password, $email, $isAdmin = 0)
     {
-        $id = max(array_keys(self::$users)) + 1;
-        $user = [
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $this->db->query(
+            "INSERT INTO users (username, password, email, is_admin) VALUES (?, ?, ?, ?)",
+            [$username, $hashedPassword, $email, $isAdmin]
+        );
+
+        $id = $this->db->getConnection()->lastInsertId();
+
+        return [
             'id' => $id,
             'username' => $username,
-            'password' => $password,
             'email' => $email,
-            'role' => 'user',
-            'created_at' => date('Y-m-d')
+            'is_admin' => $isAdmin
         ];
-        self::$users[$id] = $user;
-        return $user;
     }
-    
+
+    // Vrati korisnika po ID
     public function findById($id)
     {
-        return self::$users[$id] ?? false;
+        $stmt = $this->db->query("SELECT * FROM users WHERE id = ?", [$id]);
+        return $stmt->fetch();
     }
-    
+
+    // Lista svih običnih korisnika (za admin dashboard)
     public function getAllUsers()
     {
-        return array_filter(self::$users, function($user) {
-            return $user['role'] !== 'admin';
-        });
+        $stmt = $this->db->query("SELECT id, username, email, is_admin FROM users WHERE is_admin = 0");
+        return $stmt->fetchAll();
     }
-    
+
+    // Delete korisnika (samo obični korisnici)
     public function deleteUser($id)
     {
-        if (isset(self::$users[$id]) && self::$users[$id]['role'] !== 'admin') {
-            unset(self::$users[$id]);
-            return true;
-        }
-        return false;
+        $this->db->query("DELETE FROM users WHERE id = ? AND is_admin = 0", [$id]);
+        return true;
     }
-    
+
+    // Update korisnika (samo obični korisnici)
     public function updateUser($id, $data)
     {
-        if (isset(self::$users[$id]) && self::$users[$id]['role'] !== 'admin') {
-            self::$users[$id] = array_merge(self::$users[$id], $data);
-            return true;
+        $fields = [];
+        $values = [];
+
+        foreach ($data as $key => $value) {
+            $fields[] = "$key = ?";
+            $values[] = $value;
         }
-        return false;
+
+        $values[] = $id;
+
+        $sql = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = ? AND is_admin = 0";
+        $this->db->query($sql, $values);
+
+        return true;
     }
-    
+
+    // Statistika korisnika (bez created_at)
     public function getUserStats()
     {
+        $stmt = $this->db->query("SELECT COUNT(*) as total_users FROM users WHERE is_admin = 0");
+        $total = $stmt->fetch()['total_users'] ?? 0;
+
+        // Bez created_at kolone, new_users_today postavljamo na 0
+        $newToday = 0;
+
         return [
-            'total_users' => count(array_filter(self::$users, function($user) {
-                return $user['role'] !== 'admin';
-            })),
-            'new_users_today' => count(array_filter(self::$users, function($user) {
-                return $user['created_at'] === date('Y-m-d') && $user['role'] !== 'admin';
-            }))
+            'total_users' => $total,
+            'new_users_today' => $newToday
         ];
     }
 }

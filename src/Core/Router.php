@@ -17,31 +17,42 @@ class Router
     }
     
     public function dispatch()
-    {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-       
-        // Remove base path if running in subdirectory
-        $basePath = dirname($_SERVER['SCRIPT_NAME']);
-        if ($basePath !== '/') {
-            $requestUri = substr($requestUri, strlen($basePath));
-        }
-       
-        
-        if (!$requestUri) {
-            $requestUri = '/';
-        }
-  //      var_dump($requestMethod, $requestUri);
-//exit;
-        
-        if (isset($this->routes[$requestMethod][$requestUri])) {
-            $route = $this->routes[$requestMethod][$requestUri];
-            $controller = new $route['controller']();
-            $method = $route['method'];
-            $controller->$method();
-        } else {
-            http_response_code(404);
-            echo "404 - Page Not Found";
+{
+    $requestMethod = $_SERVER['REQUEST_METHOD'];
+    $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    $basePath = dirname($_SERVER['SCRIPT_NAME']);
+    if ($basePath !== '/') {
+        $requestUri = substr($requestUri, strlen($basePath));
+    }
+
+    if (!$requestUri) {
+        $requestUri = '/';
+    }
+
+    if (isset($this->routes[$requestMethod][$requestUri])) {
+        // tačan match (bez parametara)
+        $route = $this->routes[$requestMethod][$requestUri];
+        $controller = new $route['controller']();
+        $method = $route['method'];
+        $controller->$method();
+        return;
+    }
+
+    // match sa parametrom {id}
+    foreach ($this->routes[$requestMethod] as $path => $route) {
+        if (strpos($path, '{id}') !== false) {
+            $pattern = str_replace('{id}', '(\d+)', $path);
+            if (preg_match("#^{$pattern}$#", $requestUri, $matches)) {
+                $controller = new $route['controller']();
+                $method = $route['method'];
+                $controller->$method($matches[1]); // prosleđuje ID
+                return;
+            }
         }
     }
+
+    http_response_code(404);
+    echo "404 - Page Not Found";
+}
 }

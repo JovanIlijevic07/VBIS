@@ -30,7 +30,6 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Created</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -40,7 +39,6 @@
                         <td><?= $user['id'] ?></td>
                         <td><?= htmlspecialchars($user['username']) ?></td>
                         <td><?= htmlspecialchars($user['email']) ?></td>
-                        <td><?= date('M j, Y', strtotime($user['created_at'])) ?></td>
                         <td class="actions">
                             <a href="/admin/edit-user?id=<?= $user['id'] ?>" class="btn btn-small btn-outline">Edit</a>
                             <form method="POST" action="/admin/delete-user" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?')">

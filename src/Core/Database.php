@@ -7,9 +7,9 @@ class Database
     private $host = 'localhost';
     private $dbname = 'movie_store';
     private $username = 'root';
-    private $password = 'root';
+    private $password = 'root'; 
     private $pdo;
-    
+
     public function __construct()
     {
         try {
@@ -23,16 +23,17 @@ class Database
                 ]
             );
         } catch (\PDOException $e) {
-            // For demo purposes, we'll use array-based storage
+            // Loguj grešku i prikaži je u developmentu
+            error_log("DB connection failed: " . $e->getMessage());
             $this->pdo = null;
         }
     }
-    
+
     public function getConnection()
     {
         return $this->pdo;
     }
-    
+
     public function query($sql, $params = [])
     {
         if ($this->pdo) {
@@ -43,3 +44,4 @@ class Database
         return false;
     }
 }
+

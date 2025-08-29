@@ -15,7 +15,7 @@
             <?php foreach ($orders as $order): ?>
                 <div class="order-card">
                     <div class="order-movie">
-                        <img src="/images/<?= $order['movie']['image'] ?>" alt="<?= htmlspecialchars($order['movie']['title']) ?>" onerror="this.src='/images/placeholder.jpg'">
+                        <img src="<?= htmlspecialchars($order['movie']['image']) ?>" alt="<?= htmlspecialchars($order['movie']['title']) ?>" onerror="this.src='/images/placeholder.jpg'">
                         <div class="order-info">
                             <h3><?= htmlspecialchars($order['movie']['title']) ?></h3>
                             <p class="order-date">Purchased: <?= date('M j, Y', strtotime($order['created_at'])) ?></p>

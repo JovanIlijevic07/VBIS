@@ -60,45 +60,99 @@ class MovieController
     }
     
     public function orders()
-    {
-        if (!Session::isLoggedIn()) {
-            header('Location: /login');
-            exit;
-        }
-        
-        $userId = Session::get('user_id');
-        $orders = $this->orderModel->getUserOrders($userId);
-        $username = Session::get('username');
-        
-        // Get movie details for each order
-        foreach ($orders as &$order) {
-            $order['movie'] = $this->movieModel->getMovieById($order['movie_id']);
-        }
-        
-        include __DIR__ . '/../Views/movies/orders.php';
+{
+    if (!Session::isLoggedIn()) {
+        header('Location: /login');
+        exit;
     }
+
+    $userId = Session::get('user_id');
+    $ordersRaw = $this->orderModel->getUserOrders($userId);
+
+    $orders = [];
+    foreach ($ordersRaw as $row) {
+        $movie = $this->movieModel->getMovieById($row['movie_id']);
+        if ($movie) {
+            $orders[] = [
+                'order_id'   => $row['order_id'],
+                'created_at' => $row['order_date'],  // ovde je ključ iz baze
+                'price'      => $row['price'],
+                'movie_id'   => $row['movie_id'],
+                'movie'      => [
+                    'title' => $movie['title'],
+                    'image' => $movie['image_url'] ?? '/images/placeholder.jpg'
+                ]
+            ];
+        }
+    }
+
+    $username = Session::get('username');
+    include __DIR__ . '/../Views/movies/orders.php';
+}
 
     public function genreSalesStats()
 {
     $orders = $this->orderModel->getAllOrders();
     $movies = $this->movieModel->getAllMovies();
 
+    // Napravi mapu film_id => film
+    $moviesById = [];
+    foreach ($movies as $movie) {
+        $moviesById[$movie['id']] = $movie;
+    }
+
     $genreSales = [];
 
     foreach ($orders as $order) {
         $movieId = $order['movie_id'];
-        if (isset($movies[$movieId])) {
-            $genre = $movies[$movieId]['genre'];
+        $quantity = $order['quantity'] ?? 1;  // uzmi količinu iz order_items
+
+        if (isset($moviesById[$movieId])) {
+            $genre = $moviesById[$movieId]['genre'];
+
             if (!isset($genreSales[$genre])) {
                 $genreSales[$genre] = 0;
             }
-            $genreSales[$genre]++;
+
+            // Dodaj stvarnu količinu prodatih primeraka
+            $genreSales[$genre] += $quantity;
         }
     }
 
     header('Content-Type: application/json');
     echo json_encode($genreSales);
 }
+
+public function getGenreSalesForDashboard()
+{
+    $orders = $this->orderModel->getAllOrders();
+    $movies = $this->movieModel->getAllMovies();
+
+    // map film_id => film
+    $moviesById = [];
+    foreach ($movies as $movie) {
+        $moviesById[$movie['id']] = $movie;
+    }
+
+    $genreSales = [];
+
+    foreach ($orders as $order) {
+        $movieId = $order['movie_id'];
+        $quantity = $order['quantity'] ?? 1;
+
+        if (isset($moviesById[$movieId])) {
+            $genre = $moviesById[$movieId]['genre'];
+            if (!isset($genreSales[$genre])) {
+                $genreSales[$genre] = 0;
+            }
+            $genreSales[$genre] += $quantity;
+        }
+    }
+
+    return $genreSales;
+}
+
+
 
 public function revenueOverTime()
 {

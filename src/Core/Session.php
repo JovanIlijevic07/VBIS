@@ -48,6 +48,6 @@ class Session
     
     public static function isAdmin()
     {
-        return self::get('user_role') === 'admin';
+        return self::get('is_admin') == 1;
     }
 }
