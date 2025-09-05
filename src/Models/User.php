@@ -13,7 +13,7 @@ class User
         $this->db = new Database();
     }
 
-    // Login po username ili email
+    
     public function login($usernameOrEmail, $password)
     {
         $stmt = $this->db->query(
@@ -29,7 +29,7 @@ class User
         return false;
     }
 
-    // Registracija korisnika
+    
     public function register($username, $password, $email, $isAdmin = 0)
     {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -49,28 +49,28 @@ class User
         ];
     }
 
-    // Vrati korisnika po ID
+    
     public function findById($id)
     {
         $stmt = $this->db->query("SELECT * FROM users WHERE id = ?", [$id]);
         return $stmt->fetch();
     }
 
-    // Lista svih običnih korisnika (za admin dashboard)
+    
     public function getAllUsers()
     {
         $stmt = $this->db->query("SELECT id, username, email, is_admin FROM users WHERE is_admin = 0");
         return $stmt->fetchAll();
     }
 
-    // Delete korisnika (samo obični korisnici)
+    
     public function deleteUser($id)
     {
         $this->db->query("DELETE FROM users WHERE id = ? AND is_admin = 0", [$id]);
         return true;
     }
 
-    // Update korisnika (samo obični korisnici)
+   
     public function updateUser($id, $data)
     {
         $fields = [];
@@ -89,13 +89,13 @@ class User
         return true;
     }
 
-    // Statistika korisnika (bez created_at)
+   
     public function getUserStats()
     {
         $stmt = $this->db->query("SELECT COUNT(*) as total_users FROM users WHERE is_admin = 0");
         $total = $stmt->fetch()['total_users'] ?? 0;
 
-        // Bez created_at kolone, new_users_today postavljamo na 0
+        
         $newToday = 0;
 
         return [

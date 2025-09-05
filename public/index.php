@@ -26,10 +26,10 @@ $router->get('logout', AuthController::class, 'logout');
 // User routes
 $router->post('buy', MovieController::class, 'buy');
 $router->get('orders', MovieController::class, 'orders');
-$router->get('user/profile', UserController::class, 'profile');          // prikaz profila
-$router->get('user/edit-profile', UserController::class, 'editProfile'); // GET prikaz forme
-$router->post('user/edit-profile', UserController::class, 'editProfile'); // POST čuvanje izmena
-$router->get('user/orders', UserController::class, 'orders');           // pregled porudžbina
+$router->get('user/profile', UserController::class, 'profile');          
+$router->get('user/edit-profile', UserController::class, 'editProfile'); 
+$router->post('user/edit-profile', UserController::class, 'editProfile'); 
+$router->get('user/orders', UserController::class, 'orders');           
 
 $router->get('cart', CartController::class, 'index');
 $router->post('cart/add', CartController::class, 'add');

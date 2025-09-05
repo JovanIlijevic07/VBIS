@@ -15,39 +15,41 @@ class CartController
         $this->cartModel = new Cart();
     }
     public function update()
-{
-    $movieId = $_POST['id'] ?? null;
-    $change = $_POST['change'] ?? null;
+    {
+        $movieId = $_POST['id'] ?? null;
+        $change = $_POST['change'] ?? null;
 
-    if ($movieId && $change) {
-        $items = $this->cartModel->getCartItems();
+        if ($movieId && $change) {
+            $items = $this->cartModel->getCartItems();
 
-        foreach ($items as $item) {
-            if ($item['id'] == $movieId) {
-                $quantity = $item['quantity'];
-                if ($change === 'plus') $quantity++;
-                if ($change === 'minus') $quantity--;
-                $this->cartModel->updateQuantity($movieId, $quantity);
-                break;
+            foreach ($items as $item) {
+                if ($item['id'] == $movieId) {
+                    $quantity = $item['quantity'];
+                    if ($change === 'plus')
+                        $quantity++;
+                    if ($change === 'minus')
+                        $quantity--;
+                    $this->cartModel->updateQuantity($movieId, $quantity);
+                    break;
+                }
             }
         }
+
+        header("Location: /cart");
+        exit;
     }
 
-    header("Location: /cart");
-    exit;
-}
+    public function remove()
+    {
+        $movieId = $_POST['id'] ?? null;
 
-public function remove()
-{
-    $movieId = $_POST['id'] ?? null;
+        if ($movieId) {
+            $this->cartModel->removeItem($movieId);
+        }
 
-    if ($movieId) {
-        $this->cartModel->removeItem($movieId);
+        header("Location: /cart");
+        exit;
     }
-
-    header("Location: /cart");
-    exit;
-}
 
 
 
@@ -58,22 +60,22 @@ public function remove()
     }
 
     public function add()
-{
-    $movieId = $_POST['movie_id'] ?? null;
-    $quantity = $_POST['quantity'] ?? 1;
+    {
+        $movieId = $_POST['movie_id'] ?? null;
+        $quantity = $_POST['quantity'] ?? 1;
 
-    if ($movieId) {
-        $movieModel = new Movie();
-        $movie = $movieModel->getMovieById($movieId);
+        if ($movieId) {
+            $movieModel = new Movie();
+            $movie = $movieModel->getMovieById($movieId);
 
-        if ($movie) {
-            $this->cartModel->addItem($movie, $quantity);
+            if ($movie) {
+                $this->cartModel->addItem($movie, $quantity);
+            }
         }
-    }
 
-    header("Location: /cart");
-    exit;
-}
+        header("Location: /cart");
+        exit;
+    }
 
 
     public function buy()

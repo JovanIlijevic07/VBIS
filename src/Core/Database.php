@@ -7,7 +7,7 @@ class Database
     private $host = 'localhost';
     private $dbname = 'movie_store';
     private $username = 'root';
-    private $password = 'root'; 
+    private $password = 'root';
     private $pdo;
 
     public function __construct()
@@ -23,7 +23,7 @@ class Database
                 ]
             );
         } catch (\PDOException $e) {
-            // Loguj grešku i prikaži je u developmentu
+            
             error_log("DB connection failed: " . $e->getMessage());
             $this->pdo = null;
         }

@@ -8,8 +8,8 @@ class Auth
         Session::start();
         return [
             'isLoggedIn' => Session::isLoggedIn(),
-            'username'   => Session::get('username') ?? '',
-            'isAdmin'    => Session::isAdmin()
+            'username' => Session::get('username') ?? '',
+            'isAdmin' => Session::isAdmin()
         ];
     }
 }

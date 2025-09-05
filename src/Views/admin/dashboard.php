@@ -8,7 +8,7 @@
             <a href="/admin/users">Manage Users</a>
         </nav>
     </div>
-    
+
     <div class="dashboard-stats">
         <div class="stat-card">
             <div class="stat-icon">👥</div>
@@ -18,7 +18,7 @@
                 <small><?= $userStats['new_users_today'] ?> new today</small>
             </div>
         </div>
-        
+
         <div class="stat-card">
             <div class="stat-icon">🎬</div>
             <div class="stat-info">
@@ -27,7 +27,7 @@
                 <small>$<?= $movieStats['average_price'] ?> avg price</small>
             </div>
         </div>
-        
+
         <div class="stat-card">
             <div class="stat-icon">📦</div>
             <div class="stat-info">
@@ -36,7 +36,7 @@
                 <small><?= $orderStats['orders_today'] ?> today</small>
             </div>
         </div>
-        
+
         <div class="stat-card">
             <div class="stat-icon">💰</div>
             <div class="stat-info">
@@ -46,34 +46,33 @@
             </div>
         </div>
     </div>
-    
+
     <div class="dashboard-sections">
-    <div class="section">
-        <h2>Movie Genres</h2>
-        <canvas id="genresChart"></canvas> <!-- Ovde ide pie chart -->
+        <div class="section">
+            <h2>Movie Genres</h2>
+            <canvas id="genresChart"></canvas> 
+        </div>
+
+        <div class="section">
+            <h2>Latest Movie Revenue</h2>
+            <canvas id="latestMovieChart"></canvas> 
+        </div>
     </div>
-    
-    <div class="section">
-        <h2>Latest Movie Revenue</h2>
-        <canvas id="latestMovieChart"></canvas> <!-- Ovde ide line chart -->
-    </div>
-</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 <script>
-    // Movie Genres data
-   window.movieGenresLabels = <?= json_encode(array_column($soldByGenre, 'genre')) ?>;
+    
+    window.movieGenresLabels = <?= json_encode(array_column($soldByGenre, 'genre')) ?>;
     window.movieGenresCounts = <?= json_encode(array_column($soldByGenre, 'total_sold')) ?>;
 
-    // Latest Movie Revenue data
-    // Latest Movie Revenue data
-window.latestRevenueLabels = <?= json_encode(array_keys($orderStats['daily_revenue'] ?? [])) ?>;
-window.latestRevenueData = <?= json_encode(array_values($orderStats['daily_revenue'] ?? [])) ?>;
+    
+    window.latestRevenueLabels = <?= json_encode(array_keys($orderStats['daily_revenue'] ?? [])) ?>;
+    window.latestRevenueData = <?= json_encode(array_values($orderStats['daily_revenue'] ?? [])) ?>;
 
 </script>
 
-<script src="/js/script.js"></script> <!-- ili gde je tvoj JS fajl -->
+<script src="/js/script.js"></script> 
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>

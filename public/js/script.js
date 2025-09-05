@@ -1,7 +1,6 @@
-// Movie Store JavaScript
 
+//skrol
 document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -11,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add loading state to forms
+    //forma
     document.querySelectorAll('form').forEach(form => {
         form.addEventListener('submit', function() {
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add hover effects to movie cards
+    //efekat za kartice
     document.querySelectorAll('.movie-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Auto-hide alerts after 5 seconds
+    //alertovi
     document.querySelectorAll('.alert').forEach(alert => {
         setTimeout(() => {
             alert.style.opacity = '0';
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 
-    // Search functionality enhancement
+    // pretraga
     const searchInput = document.querySelector('input[name="q"]');
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
@@ -54,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Confirmation dialogs for delete actions
+    // delete provera
     document.querySelectorAll('form[action*="delete"]').forEach(form => {
         form.addEventListener('submit', function(e) {
             if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add animation to stat cards
+    // animacije za kartice
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -100px 0px'
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 
-    // Add buy button animation
+    // animacija dugme buy
     document.querySelectorAll('.btn-success').forEach(btn => {
         btn.addEventListener('click', function() {
             this.style.transform = 'scale(0.95)';
@@ -91,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ======= Movie Genres Pie Chart =======
+    // pie chart
     if (document.getElementById('genresChart')) {
         const genresLabels = window.movieGenresLabels || [];
         const genresCounts = window.movieGenresCounts || [];
@@ -115,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ======= Latest Movie Revenue Line Chart =======
+    //line chart
     if (document.getElementById('latestMovieChart')) {
         const revenueLabels = window.latestRevenueLabels || [];
         const revenueData = window.latestRevenueData || [];
@@ -143,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Add CSS animations
+
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideInUp {

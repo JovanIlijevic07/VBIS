@@ -6,7 +6,8 @@
             <h1>Search Results</h1>
             <div class="search-box">
                 <form action="/search" method="GET">
-                    <input type="text" name="q" placeholder="Search movies..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+                    <input type="text" name="q" placeholder="Search movies..."
+                        value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
@@ -16,10 +17,10 @@
             <p class="results-count"><?= count($movies) ?> movie(s) found</p>
             <div class="grid">
                 <?php foreach ($movies as $movie): ?>
-                    <div class="movie-card">
-                        <div class="movie-image">
-                            <img src="/images/<?= $movie['image'] ?>" alt="<?= htmlspecialchars($movie['title']) ?>" onerror="this.src='/images/placeholder.jpg'">
-                        </div>
+                    <div class="movie-poster">
+                <img src="<?= htmlspecialchars($movie['image_url']) ?>" alt="<?= htmlspecialchars($movie['title']) ?>"
+                    onerror="this.src='/images/placeholder.jpg'">
+            </div>
                         <div class="movie-info">
                             <h3><?= htmlspecialchars($movie['title']) ?></h3>
                             <p class="genre"><?= htmlspecialchars($movie['genre']) ?> • <?= $movie['year'] ?></p>

@@ -10,7 +10,7 @@
                     <tr style="background:#f8f9fa;">
                         <th style="padding: 1rem; text-align:left;">Movie</th>
                         <th style="padding: 1rem; text-align:center;">Price</th>
-                        <th style="padding: 1rem; text-align:center;">Quantity</th>
+                        
                         <th style="padding: 1rem; text-align:center;">Subtotal</th>
                         <th style="padding: 1rem; text-align:center;">Actions</th>
                     </tr>
@@ -18,29 +18,22 @@
                 <tbody>
                     <?php $total = 0; ?>
                     <?php foreach ($items as $item): ?>
-                        <?php 
-                            $price = $item['price'] ?? 0;
-                            $quantity = $item['quantity'] ?? 1;
-                            $subtotal = $price * $quantity;
+                        <?php
+                        $price = $item['price'] ?? 0;
+                        $quantity = $item['quantity'] ?? 1;
+                        $subtotal = $price * $quantity;
                         ?>
                         <tr style="border-bottom:1px solid #ecf0f1;">
                             <td style="padding: 1rem; display:flex; align-items:center; gap:1rem;">
-                                <img src="<?= htmlspecialchars($item['image_url'] ?? '/images/placeholder.jpg') ?>" 
-                                     alt="<?= htmlspecialchars($item['title'] ?? 'Movie') ?>" 
-                                     style="width:60px; height:90px; object-fit:cover; border-radius:4px;" 
-                                     onerror="this.src='/images/placeholder.jpg'">
+                                <img src="<?= htmlspecialchars($item['image_url'] ?? '/images/placeholder.jpg') ?>"
+                                    alt="<?= htmlspecialchars($item['title'] ?? 'Movie') ?>"
+                                    style="width:60px; height:90px; object-fit:cover; border-radius:4px;"
+                                    onerror="this.src='/images/placeholder.jpg'">
                                 <span><?= htmlspecialchars($item['title'] ?? 'Movie') ?></span>
                             </td>
-                            <td style="padding: 1rem; text-align:center;">$<?= number_format($price,2) ?></td>
-                            <td style="padding: 1rem; text-align:center;">
-                                <form method="post" action="/cart/update" style="display:flex; justify-content:center; align-items:center; gap:0.5rem;">
-    <input type="hidden" name="id" value="<?= $item['id'] ?>">
-    <button type="submit" name="change" value="minus" class="btn btn-outline btn-small">-</button>
-    <span><?= $quantity ?></span>
-    <button type="submit" name="change" value="plus" class="btn btn-outline btn-small">+</button>
-</form>
-                            </td>
-                            <td style="padding: 1rem; text-align:center;">$<?= number_format($subtotal,2) ?></td>
+                            <td style="padding: 1rem; text-align:center;">$<?= number_format($price, 2) ?></td>
+                           
+                            <td style="padding: 1rem; text-align:center;">$<?= number_format($subtotal, 2) ?></td>
                             <td style="padding: 1rem; text-align:center;">
                                 <form method="post" action="/cart/remove">
                                     <input type="hidden" name="id" value="<?= $item['id'] ?>">
@@ -54,7 +47,7 @@
             </table>
 
             <div style="margin-top:2rem; text-align:right;">
-                <h3>Total: $<?= number_format($total,2) ?></h3>
+                <h3>Total: $<?= number_format($total, 2) ?></h3>
                 <form method="post" action="/cart/buy" style="margin-top:1rem;">
                     <button type="submit" class="btn btn-success btn-large">Buy Now</button>
                 </form>

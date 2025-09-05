@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,8 +36,8 @@ $auth = Auth::check();
                     <a href="/register" class="btn btn-outline">Register</a>
 
                     <!-- Cart dugme kada nije loginovan -->
-                    <a href="/login" class="btn btn-success" style="margin-left:10px;" 
-                       title="Login to access your cart">🛒 Cart</a>
+                    <a href="/login" class="btn btn-success" style="margin-left:10px;" title="Login to access your cart">🛒
+                        Cart</a>
                 <?php endif; ?>
             </div>
         </nav>

@@ -197,14 +197,21 @@ body {
 }
 
 .movie-image {
-    height: 200px;
+    width: 100%;
+    height: 200px;          /* keep all cards same height */
+    display: flex;          
+    justify-content: center;
+    align-items: center;
+    background: #f4f4f4;    /* optional background color */
     overflow: hidden;
 }
 
 .movie-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    object-fit: contain;    /* show full image without cropping */
 }
 
 .movie-info {

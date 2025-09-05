@@ -14,57 +14,57 @@ class Cart
         }
     }
 
-    public function addItem($movie)
+    public function addItem($movie, $quantity = 1)
 {
-    // Proveri da li je film već u korpi
     foreach ($_SESSION['cart'] as &$item) {
         if ($item['id'] == $movie['id']) {
-            $item['quantity']++;
+            $item['quantity'] += $quantity;
             return;
         }
     }
 
-    // Dodaj film u korpu sa slikom
     $_SESSION['cart'][] = [
         'id' => $movie['id'],
         'title' => $movie['title'],
         'price' => $movie['price'],
-        'quantity' => 1,
-        'image_url' => $movie['image_url']  // fallback ako nema slike
+        'quantity' => $quantity,
+        'image_url' => $movie['image_url']
     ];
 }
 
-public function updateQuantity($movieId, $quantity)
-{
-    // Ako nema kartice, ne radi ništa
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
 
-    foreach ($_SESSION['cart'] as &$item) {
-        if ($item['id'] == $movieId) {
-            // Ako je quantity <= 0, možeš obrisati stavku
-            if ($quantity <= 0) {
-                $this->removeItem($movieId);
-            } else {
-                $item['quantity'] = $quantity;
+    public function updateQuantity($movieId, $quantity)
+    {
+      
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = [];
+        }
+
+        foreach ($_SESSION['cart'] as &$item) {
+            if ($item['id'] == $movieId) {
+                
+            
+                if ($quantity <= 0) {
+                    $this->removeItem($movieId);
+                } else {
+                    $item['quantity'] = $quantity;
+                }
+                return;
             }
-            return;
         }
     }
-}
 
-// metoda za brisanje stavke
-public function removeItem($movieId)
-{
-    foreach ($_SESSION['cart'] as $key => $item) {
-        if ($item['id'] == $movieId) {
-            unset($_SESSION['cart'][$key]);
-            $_SESSION['cart'] = array_values($_SESSION['cart']); // reset indexe
-            return;
+  
+    public function removeItem($movieId)
+    {
+        foreach ($_SESSION['cart'] as $key => $item) {
+            if ($item['id'] == $movieId) {
+                unset($_SESSION['cart'][$key]);
+                $_SESSION['cart'] = array_values($_SESSION['cart']); 
+                return;
+            }
         }
     }
-}
 
 
     public function getCartItems()

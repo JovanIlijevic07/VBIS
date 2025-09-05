@@ -3,10 +3,11 @@
 <div class="container">
     <section class="hero">
         <h1>My Profile</h1>
-        
+
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="alert alert-success">
-                <?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?>
+                <?= htmlspecialchars($_SESSION['success_message']);
+                unset($_SESSION['success_message']); ?>
             </div>
         <?php endif; ?>
 

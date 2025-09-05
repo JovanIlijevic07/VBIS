@@ -6,7 +6,8 @@
 
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="alert alert-success">
-                <?= htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?>
+                <?= htmlspecialchars($_SESSION['success_message']);
+                unset($_SESSION['success_message']); ?>
             </div>
         <?php endif; ?>
 
@@ -19,7 +20,8 @@
         <form action="/edit_profile" method="POST" class="auth-form">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" value="<?= htmlspecialchars($user['username']); ?>" required>
+                <input type="text" name="username" id="username" value="<?= htmlspecialchars($user['username']); ?>"
+                    required>
             </div>
 
             <div class="form-group">
